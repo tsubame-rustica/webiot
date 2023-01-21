@@ -1,3 +1,7 @@
+// mathをインクルード！
+
+var flag1 = 0;
+
 
 async function main() {
   var head = document.getElementById("head");
@@ -6,11 +10,14 @@ async function main() {
   var pca9685 = new PCA9685(port, 0x40);
   var angle = 0;
   var duty1 = 0;
+  var posiData = 0;
+  
+  
 
   // console.log("angle"+angle);
   // servo setting for sg90
   // Servo PWM pulse: min=0.0011[sec], max=0.0019[sec] angle=+-60[deg]
-  await pca9685.init(0.001, 0.002, 30);
+  await pca9685.init(0.001, 0.002, 5); // 3つ目の引数が、角度！
   for (;;) {
     if (angle < 180) {
       {
@@ -23,5 +30,16 @@ async function main() {
     // console.log('value:', angle);
     head.innerHTML = angle;
     await sleep(80000000000000);
+    
+    //posiDataを更新！モーター5°回転
+    //psiDataを更新（sinを使う）
+    
+    //if (DstData - posiData > 30 ) {
+        flag1 = 1;
+        
+        //押しつけ、持ち上げを上昇！
+    }
+  
+   //ズレ判定！は、別のJsファイル
   }
 }
