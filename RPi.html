@@ -13,7 +13,8 @@
     <script src="./RPi.js" defer></script>
   <script>
     function discordSend(message) {
-      const url = 'https://discord.com/api/webhooks/1066239315295875152/b0n4ERekpPwk3AF0hZmEqbY5QubLdD37IMYiakFtpxnz7Z5nfFLxtbYSXAeHWzoGx4W3';
+      const encoded = "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTA2NjI0NTYxMTY0NjYxOTY3OC9oYWt6bEVDMEk0enJsVGZWa01TUXl0cFdSM0wzTUVabWlrZHBjSjhhRm5Fbng1aFR3UWk4LTMwMDlMWEF6dWVmSmFsUw==";
+      const url = atob(encoded);
       const data = {
         content: message
       };
