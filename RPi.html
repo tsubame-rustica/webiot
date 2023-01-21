@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      content="width=device-width, user-scalable=no, initial-scale=1"
+      name="viewport"
+    />
+    <title>Remote SHT30 sensing</title>
+    <script type="module" src="https://chirimen.org/remote-connection/js/beta/RelayServerGlobal.js"></script>
+    <script src="https://r.chirimen.org/polyfill.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@chirimen/GYUL530X"></script>
+    <script src="./RPi.js" defer></script>
+  <script>
+    function discordSend(message) {
+      const url = 'https://discord.com/api/webhooks/1066239315295875152/b0n4ERekpPwk3AF0hZmEqbY5QubLdD37IMYiakFtpxnz7Z5nfFLxtbYSXAeHWzoGx4W3';
+      const data = {
+        content: message
+      };
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", url, false);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(JSON.stringify(data));
+      console.log("send.");
+
+  }
+</script>
+  <style>
+      p {
+        color: blue;
+        text-align: center;
+        font-size: 24px;
+      }
+      img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Remote Example - Sensor</h3>
+    <div id="msgDiv_tmp">---</div>
+    <div id="msgDiv_dst">---</div>
+    <img height="400px" src="./SHT30schematic.png" />
+    <input type="button" value="send!" onclick="discordSend('Good Bye!')" />
+  </body>
+</html>
