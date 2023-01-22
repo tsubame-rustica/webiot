@@ -33,7 +33,7 @@ async function transmitSensorData(messge) {
     channel.send(sensorTemp);
     msgDiv_tmp.innerText = sensorTemp+"℃";
     msgDiv_dis.innerText = sensorDis+"mm";
-    if (sensorDis >= 100 & flagDeg == 1) {   //温度とズレの条件式
+    if (sensorDis >= 30 & flagDeg == 1) {   //温度とズレの条件式
       channel.send("OK");
       discordSend("Discord!");
     }
@@ -43,6 +43,10 @@ async function transmitSensorData(messge) {
 async function readTemp() {
   var tmpData = await tmp.get_obj_temp();
   console.log("tmpData:", tmpData.toFixed(2));
+  if(tmpData.toFixed(2) > 80.11)
+  {
+    
+  }
   return tmpData.toFixed(2);
 }
 
@@ -52,28 +56,25 @@ async function readDis() {
   return disData;
 }
 
-async function deg() {
+async function deg() {//モーターの回転角度
   // console.log("angle"+angle);
   // servo setting for sg90
   // Servo PWM pulse: min=0.0011[sec], max=0.0019[sec] angle=+-60[deg]
-  await pca9685.init(0.001, 0.002, 5); // 3つ目の引数が、角度！
+  await pca9685.init(0.001, 0.002, 30); // 
   for (;;) {
-    if (angle < 180) {
-      {
-        angle = angle <= 180 ? 1 : -1;
-        await sleep(5000000000000);
-      }
-    }
-    /// console.log("angle"+angle);
+    
+    //var Duty = 0;
+    angle = angle + 5;// Dutyで角度を変更（後で）
     await pca9685.setServo(0, angle);
-    // console.log('value:', angle);
+    //console.log('value:', angle);
     head.innerHTML = angle;
-    await sleep(80000000000000);
+    await sleep(10000);
     
-    //posiDataを更新！モーター5°回転
-    //psiDataを更新（sinを使う）
+   posiData = posiData - 100 * Math.sin(5*(Math.PI/180))  ; //posiDataを更新！モーター5°回転
+   //console.log('value:', posiData);
+   //head.innerHTML = posiData;
     
-    //if (DstData - posiData > 30 ) {
+    //if (DstData - posiData > 30 & tmpData > 80) {
         flag1 = 1;
     //} else {
         //flag1 = 0;
