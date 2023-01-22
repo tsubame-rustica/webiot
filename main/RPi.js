@@ -1,5 +1,7 @@
 var channel;
 var port;
+var flag1;
+
 
 main();
 
@@ -7,13 +9,17 @@ async function main() {
   var i2cAccess = await navigator.requestI2CAccess();
   var portTemp = i2cAccess.ports.get(1);
   var portDis = i2cAccess.port.get(/*ポート番号*/);
-  var portM = i2cAccess.ports.get(/*ポート番号*/);
+  var portM = i2cAccess.ports.get(14/*ポート番号*/);
+  //var portM2 = i2cAccess.ports.get(/*ポート番号*/);
   tmp = new MLX90614(portTemp);
   dis = new VL53L0X(portDis);
+  //dis2 = new 3003(portM2);
+  
   var pca9685 = new PCA9685(portM, 0x40);
+   //モーター２つめの設定
   await tmp.init();
   await dis.init();
-  
+ 
   var angle = 0;
   var duty1 = 0;
   var posiData = 0;
@@ -43,22 +49,21 @@ async function transmitSensorData(messge) {
 async function readTemp() {
   var tmpData = await tmp.get_obj_temp();
   console.log("tmpData:", tmpData.toFixed(2));
-  if(tmpData.toFixed(2) > 80.11)
-  {
-    
-  }
+  //if(tmpData.toFixed(2) > 80.11)
+  //{  
+  //}
   return tmpData.toFixed(2);
 }
 
 async function readDis() {
   var disData = await dis.getRange();
   console.log("disData:", disData.toFixed(2));
-
-  //disDataを更新！
+  
   return disData;
 }
 
 async function deg() {//モーターの回転角度
+  var posiData;
   // console.log("angle"+angle);
   // servo setting for sg90
   // Servo PWM pulse: min=0.0011[sec], max=0.0019[sec] angle=+-60[deg]
@@ -73,16 +78,23 @@ async function deg() {//モーターの回転角度
     await sleep(10000);
              
    disData = disData - 100 * Math.sin(5*(Math.PI/180))  ; //posiDataを更新！モーター5°回転
-   //console.log('value:', posiData);
+   posiData = disData;
+    
+   console.log('value:', posiData);
    //head.innerHTML = posiData;
 
     
-    //if (DstData - posiData > 30 & tmpData > 80) {
-        flag1 = 1;
-    //} else {
+   //readDis()??
+    
+    
+    if (DstData - posiData > 30 & tmpData > 80) {
+        flag1 = 1;//モーターを回転開始！
+      　await pca9685.setServo(0, -50);
+    } else {
         //flag1 = 0;
-    //}
-        
+    }
+    console.log('value:', DstData - posiData);  
+    
         //押しつけ、持ち上げを上昇！
 
       return flag1;
