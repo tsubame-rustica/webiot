@@ -77,7 +77,7 @@ async function deg() {//モーターの回転角度
     //var Duty = 0;
     angle = angle + 5;// Dutyで角度を変更（後で）
     await pca9685.setServo(0, angle);
-    //console.log('value:', angle);
+    console.log('value:', angle);
     head.innerHTML = angle;
     await sleep(10000);
              
