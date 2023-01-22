@@ -53,6 +53,8 @@ async function readTemp() {
 async function readDis() {
   var disData = await dis.getRange();
   console.log("disData:", disData.toFixed(2));
+
+  //disDataを更新！
   return disData;
 }
 
@@ -69,10 +71,11 @@ async function deg() {//モーターの回転角度
     //console.log('value:', angle);
     head.innerHTML = angle;
     await sleep(10000);
-    
-   posiData = posiData - 100 * Math.sin(5*(Math.PI/180))  ; //posiDataを更新！モーター5°回転
+             
+   disData = disData - 100 * Math.sin(5*(Math.PI/180))  ; //posiDataを更新！モーター5°回転
    //console.log('value:', posiData);
    //head.innerHTML = posiData;
+
     
     //if (DstData - posiData > 30 & tmpData > 80) {
         flag1 = 1;
