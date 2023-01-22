@@ -9,14 +9,18 @@ async function main() {
   var i2cAccess = await navigator.requestI2CAccess();
   var portTemp = i2cAccess.ports.get(1);
   var portDis = i2cAccess.port.get(/*ポート番号*/);
-  var portM = i2cAccess.ports.get(14/*ポート番号*/);
+  var portM = i2cAccess.ports.get(1/*ポート番号*/);
   //var portM2 = i2cAccess.ports.get(/*ポート番号*/);
+  
+  
+  
   tmp = new MLX90614(portTemp);
   dis = new VL53L0X(portDis);
   //dis2 = new 3003(portM2);
   
   var pca9685 = new PCA9685(portM, 0x40);
-   //モーター２つめの設定
+  var pca9685 = new PCA9685(port, 0x70);
+  
   await tmp.init();
   await dis.init();
  
